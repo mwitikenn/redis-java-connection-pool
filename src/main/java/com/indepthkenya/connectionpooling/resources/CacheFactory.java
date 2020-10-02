@@ -19,6 +19,7 @@ public class CacheFactory {
     public void createRedisPool(String packageName) {
         Reflections reflections = new Reflections(packageName);
 
+        //Get all classes with
         Set<Class<?>> classes = reflections.getTypesAnnotatedWith(Redis.class);
         for (Class<?> cl : classes) {
             Redis redis = cl.getAnnotation(Redis.class);

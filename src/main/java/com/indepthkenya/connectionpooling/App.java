@@ -1,13 +1,36 @@
 package com.indepthkenya.connectionpooling;
 
+import com.indepthkenya.connectionpooling.exception.JedisConnectionNotFound;
+import com.indepthkenya.connectionpooling.resources.CacheFactory;
+import redis.clients.jedis.Jedis;
+
 /**
  * Hello world!
  *
  */
-public class App 
+public class App
 {
-    public static void main( String[] args )
+    String packageName = this.getClass().getPackageName();
+    static CacheFactory cacheFactory = new CacheFactory();
+    public App(){
+        cacheFactory.createRedisPool(packageName);
+    }
+    public static void main(String[] args )
     {
-        System.out.println( "Hello World!" );
+        try {
+            App app = new App();
+        } catch (Exception ex) {
+
+        }
+    }
+
+    //Get first connection -default
+    public static Jedis getRedisConnection() throws JedisConnectionNotFound {
+        return cacheFactory.getRedisConnection();
+    }
+
+    //Get - a connecion from a specific redis installation if there are many
+    public static Jedis getRedisConnection(String redisInstance) throws JedisConnectionNotFound {
+        return cacheFactory.getRedisConnection("2");
     }
 }
